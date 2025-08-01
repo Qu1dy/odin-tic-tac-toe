@@ -2,7 +2,8 @@ const prompt = require('prompt-sync')();
 
 const Gameboard = (function() {
     const board = [[],[],[]];
-    
+    let occupiedCells = 0;
+
     function _build_board() {
         for(let i =0;i<3;i++) {
             for(let j=0;j<3;j++) {
@@ -18,6 +19,7 @@ const Gameboard = (function() {
             return false;
         }
         board[y][x] = symbol;
+        occupiedCells ++;
         return true;
     }
 
@@ -49,7 +51,8 @@ const Gameboard = (function() {
         allPossibleVariations = [...allPossibleVariations, ...cols, ...diag];
         return allPossibleVariations;
     }
-    const hasGameEnded = () => {
+
+    const _hasSomeoneWon = () => {
         const allPossibleVariations = _getAllPossibleVariations();
         for(let i = 0; i<allPossibleVariations.length;i++)
         {
@@ -57,6 +60,17 @@ const Gameboard = (function() {
             if(_AreAllItemsInArrayEqual(variation)) return true;
         }
         return false;
+    }
+
+    const _isDraw = () => occupiedCells === 9;
+
+    const hasGameEnded = () => {
+        if(_hasSomeoneWon()) {
+            return 1;
+        } else  if(_isDraw()) {
+            return 2;
+        };
+        return 0;
     }
 
     _build_board();
@@ -80,13 +94,16 @@ const gameController = (function(player1, player2) {
     }
     
     const play = function() {
-        console.log(`It is ${activePlayer.name}'s turn`)
+        console.log(`It is ${activePlayer.name}'s turn`);
         const x = prompt("enter X ");
-        const y = prompt("enter Y ")
+        const y = prompt("enter Y ");
         const moved = _place(x,y);
         Gameboard.printBoard();
-        if(Gameboard.hasGameEnded()) {
+        if(Gameboard.hasGameEnded() === 1) {
             console.log(`${activePlayer.name} has won!`)
+        }
+        else if(Gameboard.hasGameEnded() === 2) {
+            console.log(`It's a draw!`)
         }
         else if(moved) {
             changeActivePlayer();
