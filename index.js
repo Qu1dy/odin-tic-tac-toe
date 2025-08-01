@@ -78,8 +78,6 @@ const gameController = (function(player1, player2) {
     const changeActivePlayer = function() {
         activePlayer = activePlayer === player1 ? player2 : player1;
     }
-
-    const getActivePlayer = () => activePlayer;
     
     const play = function() {
         console.log(`It is ${activePlayer.name}'s turn`)
@@ -101,7 +99,7 @@ const gameController = (function(player1, player2) {
             console.log("This is taken!");
     }
 
-    return {play, getActivePlayer} 
+    return {play} 
 })(player1, player2);
 
 while(true) {
