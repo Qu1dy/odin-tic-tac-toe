@@ -43,7 +43,7 @@ const Gameboard = (function() {
         for(let i = 0;i<3;i++) {
             cols[i].push(board[0][i], board[1][i], board[2][i]);
             diag[0].push(board[i][i]);
-            diag[1].push(board[2-i][2-i]);
+            diag[1].push(board[i][2-i]);
             allPossibleVariations.push(board[i]);
         };
         allPossibleVariations = [...allPossibleVariations, ...cols, ...diag];
