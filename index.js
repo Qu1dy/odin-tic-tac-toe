@@ -83,10 +83,13 @@ const gameController = (function(player1, player2) {
         console.log(`It is ${activePlayer.name}'s turn`)
         const x = prompt("enter X ");
         const y = prompt("enter Y ")
-        _place(x,y);
+        const moved = _place(x,y);
         Gameboard.printBoard();
         if(Gameboard.hasGameEnded()) {
             console.log(`${activePlayer.name} has won!`)
+        }
+        else if(moved) {
+            changeActivePlayer();
         }
     }
 
@@ -94,9 +97,10 @@ const gameController = (function(player1, player2) {
     {
         const isCellFree = Gameboard.place(activePlayer.symbol, x,y);
         if(isCellFree)
-            changeActivePlayer();
+            return true;
         else
             console.log("This is taken!");
+            return false;
     }
 
     return {play} 
