@@ -24,12 +24,44 @@ const Gameboard = (function() {
     const printBoard = () => {
         board.forEach(row => {
             console.log(row.join("|"));
-        })
+        });
     };
+
+    const _AreAllItemsInArrayEqual = (row) => {
+        let first = row[0];
+        if(first === " ") return false;
+        for(let i =1;i<row.length;i++) {
+            if(first !== row[i]) return false;
+        }
+        return true;
+    }
+ 
+    const _getAllPossibleVariations = () => {
+        const cols = [[],[],[]];
+        const diag = [[], []];
+        let allPossibleVariations = [];
+        for(let i = 0;i<3;i++) {
+            cols[i].push(board[0][i], board[1][i], board[2][i]);
+            diag[0].push(board[i][i]);
+            diag[1].push(board[2-i][2-i]);
+            allPossibleVariations.push(board[i]);
+        };
+        allPossibleVariations = [...allPossibleVariations, ...cols, ...diag];
+        return allPossibleVariations;
+    }
+    const hasGameEnded = () => {
+        const allPossibleVariations = _getAllPossibleVariations();
+        for(let i = 0; i<allPossibleVariations.length;i++)
+        {
+            let variation = allPossibleVariations[i];
+            if(_AreAllItemsInArrayEqual(variation)) return true;
+        }
+        return false;
+    }
 
     _build_board();
 
-    return {place, printBoard};
+    return {place, printBoard, hasGameEnded};
 
 });
 
@@ -50,10 +82,13 @@ const gameController = (function(player1, player2) {
     
     const play = function() {
         console.log(`It is ${controller.getActivePlayer().name}'s turn`)
-        const x = prompt("enter X");
-        const y = prompt("entet Y")
+        const x = prompt("enter X ");
+        const y = prompt("enter Y ")
         _place(x,y);
         board.printBoard();
+        if(board.hasGameEnded()) {
+            console.log(`${controller.getActivePlayer().name} has won!`)
+        }
     }
 
     const _place = function(x,y)
