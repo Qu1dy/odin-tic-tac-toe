@@ -63,15 +63,16 @@ const Gameboard = (function() {
 
     return {place, printBoard, hasGameEnded};
 
-});
+})();
 
 const player = function(name, symbol) {
     return {name, symbol};
 };
 
-const gameController = (function(player1, player2) {
+const player1 = player("meow", "o");
+const player2 = player("avi", "x");
 
-    const board = Gameboard();
+const gameController = (function(player1, player2) {
     let activePlayer = player1;
     
     const changeActivePlayer = function() {
@@ -81,19 +82,19 @@ const gameController = (function(player1, player2) {
     const getActivePlayer = () => activePlayer;
     
     const play = function() {
-        console.log(`It is ${controller.getActivePlayer().name}'s turn`)
+        console.log(`It is ${activePlayer.name}'s turn`)
         const x = prompt("enter X ");
         const y = prompt("enter Y ")
         _place(x,y);
-        board.printBoard();
-        if(board.hasGameEnded()) {
-            console.log(`${controller.getActivePlayer().name} has won!`)
+        Gameboard.printBoard();
+        if(Gameboard.hasGameEnded()) {
+            console.log(`${activePlayer.name} has won!`)
         }
     }
 
     const _place = function(x,y)
     {
-        const isCellFree = board.place(activePlayer.symbol, x,y);
+        const isCellFree = Gameboard.place(activePlayer.symbol, x,y);
         if(isCellFree)
             changeActivePlayer();
         else
@@ -101,12 +102,8 @@ const gameController = (function(player1, player2) {
     }
 
     return {play, getActivePlayer} 
-});
+})(player1, player2);
 
-const player1 = player("meow", "o");
-const player2 = player("avi", "x");
-
-const controller = gameController(player1,player2); 
 while(true) {
-    controller.play();
+    gameController.play();
 }
