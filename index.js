@@ -1,21 +1,37 @@
+const prompt = require('prompt-sync')(); 
+
 const Gameboard = (function() {
     const board = [[],[],[]];
     
-    function place(symbol,x,y) {
-        if(board[y][x])
+    function _build_board() {
+        for(let i =0;i<3;i++) {
+            for(let j=0;j<3;j++) {
+                board[i][j] = " ";
+            }
+        }
+    }
+
+
+    const place = function(symbol,x,y) {
+        if(board[y][x] !== " ")
         {
             return false;
-        }    
+        }
         board[y][x] = symbol;
-        console.log(board);
         return true;
     }
 
-    const getBoard = () => board;
+    const printBoard = () => {
+        board.forEach(row => {
+            console.log(row.join("|"));
+        })
+    };
 
-    return {place, getBoard};
+    _build_board();
 
-})();
+    return {place, printBoard};
+
+});
 
 const player = function(name, symbol) {
     return {name, symbol};
