@@ -2,15 +2,21 @@ const Gameboard = (function() {
     const board = [[],[],[]];
     
     function place(symbol,x,y) {
-        if(!board[y][x])
+        if(board[y][x])
         {
-            board[y][x] = symbol;
-        }
+            return false;
+        }    
+        board[y][x] = symbol;
         console.log(board);
+        return true;
     }
-    return {place};
+
+    const getBoard = () => board;
+
+    return {place, getBoard};
+
 })();
 
 const player = function(name, symbol) {
     return {name, symbol};
-}
+};
