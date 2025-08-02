@@ -111,6 +111,7 @@ const gameController = ((player1, player2) => {
     
     const dc = displayController(play);
     dc.renderTurn(activePlayer.name);
+    dc.renderStatus("IN GAME");
     const changeActivePlayer = function() {
         activePlayer = activePlayer === player1 ? player2 : player1;
     }
@@ -118,14 +119,14 @@ const gameController = ((player1, player2) => {
     const _hasGameEnded = () => {
         const result = Gameboard.getGameState();
         dc.renderBoard();
-        if(result === 1) {
+        if(result === 0) return false;
+        else if(result === 1) {
             dc.renderMessage(`${activePlayer.name} has won!`, 3);
-            return true;
-        } else if(result === 2) {
+        } else {
             dc.renderMessage("It's a draw!", 3);
-            return true;
         }
-        return false;
+        dc.renderStatus("GAME ENDED")
+        return true;
     }
 
     function play(x,y) {
@@ -187,6 +188,12 @@ const displayController = ((play) => {
         this.turn.innerText = `${activePlayerName}'s turn` 
     }
 
+    const renderStatus = (status) => {
+        this.infoStatus.innerText = `STATUS: ${status}`;
+    }
+
+
+
     const renderMessage = (message, duration) => {
         this.overlay.style.display = "flex";
         this.overlayText.innerText = message; 
@@ -205,5 +212,6 @@ const displayController = ((play) => {
     _cacheDom();
     _showGame();
     renderBoard();
-    return {renderBoard, renderMessage, renderTurn};
+
+    return {renderBoard, renderMessage, renderTurn, renderStatus};
 });
