@@ -52,7 +52,28 @@ main .menu {
 .player {
     width: 15rem;
     height: 15rem;
+    background-color: hsl(0,0%,15%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
+.player input {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    border-bottom: 4px solid hsl(60, 100%, 50%);
+}
+
+input:focus, button:focus {
+    outline: none;
+}
+
+.player img {
+    margin-top: 2rem;
+    width: 10rem;
+    height: auto;
 }
 
 .players {

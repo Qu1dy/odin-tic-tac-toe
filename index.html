@@ -25,12 +25,26 @@
     </div>
     <div class="game"></div>
     <main>
-        <div class="menu">
-            <div class="players">
-                <div class="player" id="player1"></div>
-                <div class="player" id="player2"></div>
-            </div>
-            <button id="start">START GAME</button>
+        <form action="">
+            <div class="menu">
+                <div class="players">
+                    <div class="player">
+                        <img src="svgs/player-user1.svg" alt="Player 1">
+                        <p>
+                            <label for="player1-name"></label>
+                            <input type="text" placeholder="Name: " id="player1-name">
+                        </p>
+                    </div>
+                    <div class="player">
+                        <img src="svgs/player-user2.svg" alt="Player 2">
+                        <p>
+                            <label for="player2-name"></label>
+                            <input type="text" placeholder="Name: " id="player2-name">
+                        </p>
+                    </div>
+                </div>
+                <button id="start">START GAME</button>
+        </form>
         </div>
     </main>
     <script src="index.js"></script>
