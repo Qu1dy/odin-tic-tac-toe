@@ -82,7 +82,7 @@ const Gameboard = (function() {
 })();
 
 const player = function(name, symbol) {
-    return {name, symbol};
+    return {name, symbol, wins: 0};
 };
 
 const playerHandler = (() => {
@@ -121,6 +121,8 @@ const gameController = ((player1, player2) => {
         dc.renderBoard();
         if(result === 0) return false;
         else if(result === 1) {
+            activePlayer.wins++;
+            activePlayer === player1 ? dc.renderP1Win(activePlayer.wins) : dc.renderP2Win(activePlayer.wins);
             dc.renderMessage(`${activePlayer.name} has won!`, 3);
         } else {
             dc.renderMessage("It's a draw!", 3);
@@ -153,8 +155,8 @@ const displayController = ((play) => {
         this.infoStatus = info.querySelector(".game-status");
         this.turn = info.querySelector(".turn");
         const gamesWon = info.querySelector(".games-won");
-        this.wonP1 = gamesWon.querySelector("player1");
-        this.wonP2 = gamesWon.querySelector("player2");
+        this.wonP1 = gamesWon.querySelector(".p1");
+        this.wonP2 = gamesWon.querySelector(".p2");
     }
 
     const _showGame = () => {
@@ -193,6 +195,15 @@ const displayController = ((play) => {
     }
 
 
+    const renderP1Win = (amount) => {
+        const currentText = this.wonP1.innerText;
+        this.wonP1.innerText = `${currentText.split(": ")[0]}: ${amount}`;
+    }
+
+    const renderP2Win = (amount) => {
+        const currentText = this.wonP2.innerText;
+        this.wonP2.innerText = `${currentText.split(": ")[0]}: ${amount}`;
+    }
 
     const renderMessage = (message, duration) => {
         this.overlay.style.display = "flex";
@@ -213,5 +224,5 @@ const displayController = ((play) => {
     _showGame();
     renderBoard();
 
-    return {renderBoard, renderMessage, renderTurn, renderStatus};
+    return {renderBoard, renderMessage, renderTurn, renderStatus, renderP1Win, renderP2Win};
 });
