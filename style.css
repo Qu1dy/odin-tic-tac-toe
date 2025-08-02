@@ -32,6 +32,7 @@ header {
     align-items: center;    
     background-color: aqua;
     margin-bottom: 4rem;
+    box-shadow: 0 0 0.5rem hsl(80, 5%, 60%)
 }
 
 header > div {
