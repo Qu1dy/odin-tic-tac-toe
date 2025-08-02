@@ -118,7 +118,7 @@ const gameController = (function(player1, player2) {
 });
 
 const displayController = (() => {
-
+    
     const _cacheDom = () => {
         this.overlay = document.querySelector(".overlay");
         this.overlayText = overlay.querySelector(".text");
@@ -167,6 +167,21 @@ const displayController = (() => {
     return {renderBoard, renderMessage};
 })();
 
-const player1 = player("aaa", "o");
-const player2 = player("bbb", "x");
-const controller = gameController(player1, player2);
+const playerHandler = (() => {
+    const form = document.querySelector("form");
+
+    const _onSubmit = (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+
+        const player1Name = formData.get("player1");
+        const player2Name = formData.get("player2");
+
+        const player1 = player(player1Name, "X");
+        const player2 = player(player2Name, "O");
+
+        gameController(player1, player2);
+    }
+
+    form.addEventListener("submit", _onSubmit)
+})();
