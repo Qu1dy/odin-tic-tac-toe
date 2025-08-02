@@ -90,3 +90,8 @@ header .left img {
     justify-content: center;
     align-items: center;
 }
+
+form {
+    display: flex;
+    gap: 1rem;
+}
