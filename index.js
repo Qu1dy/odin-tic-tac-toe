@@ -143,6 +143,14 @@ const displayController = ((play) => {
         this.overlay = document.querySelector(".overlay");
         this.overlayText = overlay.querySelector(".text");
         this.gameDiv = document.querySelector(".game");
+        this.players = document.querySelector(".players");
+        this.startButton = document.querySelector("#start");
+    }
+
+    const _showGame = () => {
+        this.players.style.display = "none";
+        this.startButton.style.display = "none";
+        this.gameDiv.style.display = "grid";
     }
 
     const _createCol = (col, rowNum, colNum) => {
@@ -183,6 +191,7 @@ const displayController = ((play) => {
     }
 
     _cacheDom();
+    _showGame();
     renderBoard();
     return {renderBoard, renderMessage};
 });
