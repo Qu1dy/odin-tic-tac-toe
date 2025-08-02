@@ -44,6 +44,8 @@ const Gameboard = (function() {
         return allPossibleVariations;
     }
 
+    const getBoard = () => board;
+
     const _hasSomeoneWon = () => {
         const allPossibleVariations = _getAllPossibleVariations();
         for(let i = 0; i<allPossibleVariations.length;i++)
@@ -67,7 +69,7 @@ const Gameboard = (function() {
 
     _build_board();
 
-    return {place, printBoard, hasGameEnded};
+    return {place, getBoard, hasGameEnded};
 
 })();
 
@@ -84,11 +86,12 @@ const gameController = (function(player1, player2) {
 
     const _checkGameState = () => {
         const result = Gameboard.hasGameEnded();
+        console.log(result);
         if(result === 1) {
-            console.log(`${activePlayer.name} has won!`);
+            displayController.createPopUp(`${activePlayer.name} has won!`)
             return true;
         } else if(result === 2) {
-            console.log(`It's a draw!`);
+            displayController.createPopUp(`It's a draw!`)
             return true;
         }
         return false;
@@ -96,7 +99,7 @@ const gameController = (function(player1, player2) {
 
     const play = function(x,y) {
         const moved = Gameboard.place(activePlayer.symbol, x,y);
-        Gameboard.printBoard();
+        displayController.render();
         if(moved && !_checkGameState()) {
             changeActivePlayer();
         }
@@ -104,3 +107,32 @@ const gameController = (function(player1, player2) {
 
     return {play};
 });
+
+const displayController = (() => {
+    const board = Gameboard.getBoard();
+    const gameDiv = document.querySelector(".game");
+
+    const render = () => {
+        gameDiv.innerHTML = "";
+        console.log(board);
+        board.forEach(row => {
+            row.forEach(col => {
+                const colDiv = document.createElement("div");
+                colDiv.innerText = col;
+                colDiv.classList.add("col");
+                gameDiv.appendChild(colDiv);
+           });
+        });
+    };
+
+    const createPopUp = (message) => {
+        console.log("aaa");
+        alert(message);
+    }
+
+    return {render, createPopUp};
+})();
+
+const player1 = player("aaa", "o");
+const player2 = player("bbb", "x");
+gameController(player1, player2).play(0, 1);
