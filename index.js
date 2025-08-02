@@ -1,5 +1,3 @@
-const prompt = require('prompt-sync')(); 
-
 const Gameboard = (function() {
     const board = [[],[],[]];
     let occupiedCells = 0;
@@ -23,11 +21,6 @@ const Gameboard = (function() {
         return true;
     }
 
-    const printBoard = () => {
-        board.forEach(row => {
-            console.log(row.join("|"));
-        });
-    };
 
     const _AreAllItemsInArrayEqual = (row) => {
         let first = row[0];
@@ -83,21 +76,11 @@ const player = function(name, symbol) {
     return {name, symbol};
 };
 
-const player1 = player("meow", "o");
-const player2 = player("avi", "x");
-
 const gameController = (function(player1, player2) {
     let activePlayer = player1;
     
     const changeActivePlayer = function() {
         activePlayer = activePlayer === player1 ? player2 : player1;
-    }
-    
-    const _getMove = () => {
-        console.log(`It is ${activePlayer.name}'s turn`);
-        const x = prompt("enter X ");
-        const y = prompt("enter Y ");
-        return {x, y};
     }
 
     const _checkGameState = () => {
@@ -112,8 +95,7 @@ const gameController = (function(player1, player2) {
         return false;
     }
 
-    const play = function() {
-        const {x, y} = _getMove();
+    const play = function(x,y) {
         const moved = Gameboard.place(activePlayer.symbol, x,y);
         Gameboard.printBoard();
         if(moved && !_checkGameState()) {
@@ -122,8 +104,4 @@ const gameController = (function(player1, player2) {
     }
 
     return {play};
-})(player1, player2);
-
-while(true) {
-    gameController.play();
-}
+});
