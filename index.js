@@ -1,5 +1,5 @@
 const Gameboard = (function() {
-    const board = [[],[],[]];
+    let board;
     let occupiedCells = 0;
 
     function _build_board() {
@@ -56,18 +56,26 @@ const Gameboard = (function() {
         return false;
     }
 
+    const _resetBoard = () => {
+        board = [[],[],[]];
+        _build_board();
+    }
+
     const _isDraw = () => occupiedCells === 9;
 
     const hasGameEnded = () => {
-        if(_hasSomeoneWon()) {
+        const hasSomeoneWon = _hasSomeoneWon();
+        const isDraw = _isDraw();
+        if(!hasSomeoneWon && !isDraw) return 0;
+        _resetBoard();
+        if(hasSomeoneWon) {
             return 1;
-        } else if(_isDraw()) {
+        } else if(isDraw) {
             return 2;
         }
-        return 0;
     }
 
-    _build_board();
+    _resetBoard();
 
     return {place, getBoard, hasGameEnded};
 
@@ -86,11 +94,10 @@ const gameController = (function(player1, player2) {
 
     const _checkGameState = () => {
         const result = Gameboard.hasGameEnded();
+        displayController.render();
         if(result === 1) {
-            displayController.createPopUp(`${activePlayer.name} has won!`)
             return true;
         } else if(result === 2) {
-            displayController.createPopUp(`It's a draw!`)
             return true;
         }
         return false;
@@ -108,10 +115,10 @@ const gameController = (function(player1, player2) {
 });
 
 const displayController = (() => {
-    const board = Gameboard.getBoard();
     const gameDiv = document.querySelector(".game");
 
     const render = () => {
+        const board = Gameboard.getBoard();
         gameDiv.innerHTML = "";
         board.forEach((row, rowNum) => {
             row.forEach((col, colNum) => {
