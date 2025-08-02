@@ -125,17 +125,22 @@ const displayController = (() => {
         this.gameDiv = document.querySelector(".game");
     }
 
+    const _createCol = (col, rowNum, colNum) => {
+        const colDiv = document.createElement("div");
+        colDiv.innerText = col;
+        colDiv.dataset.y = rowNum;
+        colDiv.dataset.x = colNum;
+        colDiv.classList.add("col");
+        colDiv.addEventListener("click", _onCellClick);
+        return colDiv;
+    }
+
     const renderBoard = () => {
         const board = Gameboard.getBoard();
         this.gameDiv.innerHTML = "";
         board.forEach((row, rowNum) => {
             row.forEach((col, colNum) => {
-                const colDiv = document.createElement("div");
-                colDiv.innerText = col;
-                colDiv.dataset.y = rowNum;
-                colDiv.dataset.x = colNum;
-                colDiv.classList.add("col");
-                colDiv.addEventListener("click", _onCellClick);
+                const colDiv = _createCol(col, rowNum, colNum);
                 this.gameDiv.appendChild(colDiv);
            });
         });
