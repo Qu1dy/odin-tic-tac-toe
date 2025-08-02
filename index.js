@@ -86,7 +86,6 @@ const gameController = (function(player1, player2) {
 
     const _checkGameState = () => {
         const result = Gameboard.hasGameEnded();
-        console.log(result);
         if(result === 1) {
             displayController.createPopUp(`${activePlayer.name} has won!`)
             return true;
@@ -114,25 +113,35 @@ const displayController = (() => {
 
     const render = () => {
         gameDiv.innerHTML = "";
-        console.log(board);
-        board.forEach(row => {
-            row.forEach(col => {
+        board.forEach((row, rowNum) => {
+            row.forEach((col, colNum) => {
                 const colDiv = document.createElement("div");
                 colDiv.innerText = col;
+                colDiv.dataset.y = rowNum;
+                colDiv.dataset.x = colNum;
                 colDiv.classList.add("col");
+                colDiv.addEventListener("click", _onCellClick);
                 gameDiv.appendChild(colDiv);
            });
         });
     };
 
+    const _onCellClick = (event) => {
+        const divClicked = event.target;
+        const x = divClicked.dataset.x;
+        const y = divClicked.dataset.y;
+        controller.play(x, y);
+    }
+
     const createPopUp = (message) => {
-        console.log("aaa");
         alert(message);
     }
+
+    render();
 
     return {render, createPopUp};
 })();
 
 const player1 = player("aaa", "o");
 const player2 = player("bbb", "x");
-gameController(player1, player2).play(0, 1);
+const controller = gameController(player1, player2);
