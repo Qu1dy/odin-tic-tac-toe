@@ -19,18 +19,13 @@ body {
 }
 
 .game {
-    display: grid;
+    display: none;
     width: 80vh;
     flex: 1;
     background-color: black;
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
     gap: 1rem 1rem;
     border: 1rem solid gray;
-}
-
-main {
-    display: flex;
-    height: calc(100vh - 5rem);
 }
 
 header {
