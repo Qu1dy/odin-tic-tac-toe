@@ -65,7 +65,7 @@ const Gameboard = (function() {
 
     const _isDraw = () => occupiedCells === 9;
 
-    const hasGameEnded = () => {
+    const getGameState = () => {
         const hasSomeoneWon = _hasSomeoneWon();
         const isDraw = _isDraw();
         if(!hasSomeoneWon && !isDraw) return 0;
@@ -78,7 +78,7 @@ const Gameboard = (function() {
 
     _resetBoard();
 
-    return {place, getBoard, hasGameEnded};
+    return {place, getBoard, getGameState};
 
 })();
 
@@ -93,8 +93,8 @@ const gameController = (function(player1, player2) {
         activePlayer = activePlayer === player1 ? player2 : player1;
     }
 
-    const _checkGameState = () => {
-        const result = Gameboard.hasGameEnded();
+    const _hasGameEnded = () => {
+        const result = Gameboard.getGameState();
         displayController.renderBoard();
         if(result === 1) {
             displayController.renderMessage(`${activePlayer.name} has won!`, 3);
@@ -109,7 +109,7 @@ const gameController = (function(player1, player2) {
     const play = function(x,y) {
         const moved = Gameboard.place(activePlayer.symbol, x,y);
         displayController.renderBoard();
-        if(moved && !_checkGameState()) {
+        if(moved && !_hasGameEnded()) {
             changeActivePlayer();
         }
     }
