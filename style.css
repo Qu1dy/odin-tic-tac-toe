@@ -33,6 +33,17 @@ main {
     background-color: hsl(0,0%, 10%);
     padding: 1rem 0;
     flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+main .menu {
+    width: 40rem;
+    height: 40rem;
+    border: 2px solid hsl(60, 100%, 40%);
+    border-radius: 2rem;
+    box-shadow: 0 0 3rem hsl(60, 100%, 30%);
 }
 
 body > * {
