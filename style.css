@@ -19,8 +19,8 @@ body {
 
 .game {
     display: grid;
-    height: 60vh;
-    width: 50vw;
+    height: 80vh;
+    width: 80vh;
     background-color: black;
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
     gap: 1rem 1rem;
