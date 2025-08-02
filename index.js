@@ -34,10 +34,11 @@ const Gameboard = (function() {
         const cols = [[],[],[]];
         const diag = [[], []];
         let allPossibleVariations = [];
-        for(let i = 0;i<3;i++) {
-            cols[i].push(board[0][i], board[1][i], board[2][i]);
+        for(let i = 0;i<board.length;i++) {
+            for(let j = 0;j<board.length;j++)
+                cols[i].push(board[j][i]);
             diag[0].push(board[i][i]);
-            diag[1].push(board[i][2-i]);
+            diag[1].push(board[i][board.length-1-i]);
             allPossibleVariations.push(board[i]);
         };
         allPossibleVariations = [...allPossibleVariations, ...cols, ...diag];
@@ -58,7 +59,7 @@ const Gameboard = (function() {
 
     const _resetBoard = () => {
         occupiedCells = 0;
-        board = [[],[],[]];
+        board = [[],[],[]]; 
         _build_board();
     }
 
