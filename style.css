@@ -1,15 +1,18 @@
 body, .col {
     display: flex;
-    justify-content: center;
     align-items: center;
+    flex-direction: column;
     background-color: white;
 }
 
 body {
+    margin: 0;
+    padding: 0;
     height: 100vh;
 }
 
 .col {
+    justify-content: center;
     font-size: 10rem;
 }
 
@@ -20,4 +23,28 @@ body {
     background-color: black;
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
     gap: 1rem 1rem;
+}
+
+header {
+    display: flex;
+    width: 100vw;
+    justify-content: space-between;
+    align-items: center;    
+    background-color: aqua;
+    margin-bottom: 4rem;
+}
+
+header > div {
+    margin: 1rem;
+}
+
+header .left img {
+    width: 4rem;
+    height: auto;
+}
+
+.left, .right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
