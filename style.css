@@ -44,7 +44,33 @@ main .menu {
     border: 2px solid hsl(60, 100%, 40%);
     border-radius: 2rem;
     box-shadow: 0 0 3rem hsl(60, 100%, 30%);
+    display: grid;
+    grid-template-areas:    'player1 player2'
+                            'start start';
 }
+
+#player1 {
+    grid-area: player1;
+}
+
+#player2 {
+    grid-area: player2;
+}
+
+#start {
+    width: 30rem;
+    height: 3rem;
+    margin: 35rem auto;
+    grid-area: start;
+    font-size: 2.2rem;
+    background: none;
+    font-weight: 9000;
+    color: white;
+    text-shadow: 4px 4px 1rem white;
+    border: 2px solid hsl(60, 100%, 40%);
+    box-shadow: 0 0 3rem hsl(60, 100%, 30%);
+}
+
 
 body > * {
     width: inherit;
