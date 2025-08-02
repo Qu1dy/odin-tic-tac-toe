@@ -118,11 +118,16 @@ const gameController = (function(player1, player2) {
 });
 
 const displayController = (() => {
-    const gameDiv = document.querySelector(".game");
+
+    const _cacheDom = () => {
+        this.overlay = document.querySelector(".overlay");
+        this.overlayText = overlay.querySelector(".text");
+        this.gameDiv = document.querySelector(".game");
+    }
 
     const renderBoard = () => {
         const board = Gameboard.getBoard();
-        gameDiv.innerHTML = "";
+        this.gameDiv.innerHTML = "";
         board.forEach((row, rowNum) => {
             row.forEach((col, colNum) => {
                 const colDiv = document.createElement("div");
@@ -131,16 +136,14 @@ const displayController = (() => {
                 colDiv.dataset.x = colNum;
                 colDiv.classList.add("col");
                 colDiv.addEventListener("click", _onCellClick);
-                gameDiv.appendChild(colDiv);
+                this.gameDiv.appendChild(colDiv);
            });
         });
     };
 
     const renderMessage = (message) => {
-        const overlay = document.querySelector(".overlay");
-        const overlayText = overlay.querySelector(".text");
-        overlay.style.display = "flex";
-        overlayText.innerText = message; 
+        this.overlay.style.display = "flex";
+        this.overlayText.innerText = message; 
     }
 
     const _onCellClick = (event) => {
@@ -150,8 +153,8 @@ const displayController = (() => {
         controller.play(x, y);
     }
 
+    _cacheDom();
     renderBoard();
-
     return {renderBoard, renderMessage};
 })();
 
