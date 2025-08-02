@@ -118,7 +118,6 @@ const gameController = ((player1, player2) => {
 
     const _hasGameEnded = () => {
         const result = Gameboard.getGameState();
-        dc.renderBoard();
         if(result === 0) return false;
         else if(result === 1) {
             activePlayer.wins++;
@@ -132,7 +131,7 @@ const gameController = ((player1, player2) => {
     }
 
     function play(x,y) {
-        if(_hasGameEnded()) return;
+        if(Gameboard.getGameState() !== 0) return;
         const moved = Gameboard.place(activePlayer.symbol, x,y);
         dc.renderBoard();
         if(moved && !_hasGameEnded()) {
