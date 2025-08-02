@@ -10,6 +10,7 @@ body {
     padding: 0;
     font-family: "Open Sans", sans-serif;
     height: 100vh;
+    position: relative;
 }
 
 .col {
@@ -63,4 +64,18 @@ header .left img {
 
 .right button:hover {
     transform: translateY(-0.25rem) scale(1.1);
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    font-size: 5rem;
+    background-color: rgba(0,0,255,0.1);
+    display: none;
+    justify-content: center;
+    align-items: center;
 }

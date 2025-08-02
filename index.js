@@ -69,7 +69,6 @@ const Gameboard = (function() {
         const hasSomeoneWon = _hasSomeoneWon();
         const isDraw = _isDraw();
         if(!hasSomeoneWon && !isDraw) return 0;
-        _resetBoard();
         if(hasSomeoneWon) {
             return 1;
         } else if(isDraw) {
@@ -96,10 +95,12 @@ const gameController = (function(player1, player2) {
 
     const _checkGameState = () => {
         const result = Gameboard.hasGameEnded();
-        displayController.render();
+        displayController.renderBoard();
         if(result === 1) {
+            displayController.renderMessage(`${activePlayer.name} has won!`);
             return true;
         } else if(result === 2) {
+            displayController.renderMessage("It's a draw!");
             return true;
         }
         return false;
@@ -107,7 +108,7 @@ const gameController = (function(player1, player2) {
 
     const play = function(x,y) {
         const moved = Gameboard.place(activePlayer.symbol, x,y);
-        displayController.render();
+        displayController.renderBoard();
         if(moved && !_checkGameState()) {
             changeActivePlayer();
         }
@@ -119,7 +120,7 @@ const gameController = (function(player1, player2) {
 const displayController = (() => {
     const gameDiv = document.querySelector(".game");
 
-    const render = () => {
+    const renderBoard = () => {
         const board = Gameboard.getBoard();
         gameDiv.innerHTML = "";
         board.forEach((row, rowNum) => {
@@ -135,6 +136,13 @@ const displayController = (() => {
         });
     };
 
+    const renderMessage = (message) => {
+        const overlay = document.querySelector(".overlay");
+        const overlayText = overlay.querySelector(".text");
+        overlay.style.display = "flex";
+        overlayText.innerText = message; 
+    }
+
     const _onCellClick = (event) => {
         const divClicked = event.target;
         const x = divClicked.dataset.x;
@@ -142,13 +150,9 @@ const displayController = (() => {
         controller.play(x, y);
     }
 
-    const createPopUp = (message) => {
-        alert(message);
-    }
+    renderBoard();
 
-    render();
-
-    return {render, createPopUp};
+    return {renderBoard, renderMessage};
 })();
 
 const player1 = player("aaa", "o");
