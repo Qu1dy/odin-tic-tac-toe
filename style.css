@@ -30,13 +30,11 @@ body {
 
 main {
     display: flex;
-    flex-direction: column;
     height: calc(100vh - 5rem);
 }
 
 header {
     display: flex;
-    width: 100vw;
     height: 5rem;
     justify-content: space-between;
     align-items: center;    
@@ -46,6 +44,7 @@ header {
 
 body > * {
     margin-bottom: 1rem;
+    width: 100vw;
 }
 
 header > div {
