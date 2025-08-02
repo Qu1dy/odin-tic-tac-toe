@@ -93,19 +93,30 @@ const gameController = (function(player1, player2) {
         activePlayer = activePlayer === player1 ? player2 : player1;
     }
     
-    const play = function() {
+    const _getMove = () => {
         console.log(`It is ${activePlayer.name}'s turn`);
         const x = prompt("enter X ");
         const y = prompt("enter Y ");
+        return {x, y};
+    }
+
+    const _checkGameState = () => {
+        const result = Gameboard.hasGameEnded();
+        if(result === 1) {
+            console.log(`${activePlayer.name} has won!`)
+            return true;
+        } else if(result === 2) {
+            console.log(`It's a draw!`)
+            return true;
+        }
+        return false;
+    }
+
+    const play = function() {
+        const {x, y} = _getMove();
         const moved = Gameboard.place(activePlayer.symbol, x,y);
         Gameboard.printBoard();
-        if(Gameboard.hasGameEnded() === 1) {
-            console.log(`${activePlayer.name} has won!`)
-        }
-        else if(Gameboard.hasGameEnded() === 2) {
-            console.log(`It's a draw!`)
-        }
-        else if(moved) {
+        if(moved && !_checkGameState()) {
             changeActivePlayer();
         }
     }
