@@ -67,7 +67,7 @@ const Gameboard = (function() {
     const hasGameEnded = () => {
         if(_hasSomeoneWon()) {
             return 1;
-        } else  if(_isDraw()) {
+        } else if(_isDraw()) {
             return 2;
         };
         return 0;
@@ -97,7 +97,7 @@ const gameController = (function(player1, player2) {
         console.log(`It is ${activePlayer.name}'s turn`);
         const x = prompt("enter X ");
         const y = prompt("enter Y ");
-        const moved = _place(x,y);
+        const moved = Gameboard.place(activePlayer.symbol, x,y);
         Gameboard.printBoard();
         if(Gameboard.hasGameEnded() === 1) {
             console.log(`${activePlayer.name} has won!`)
@@ -108,16 +108,6 @@ const gameController = (function(player1, player2) {
         else if(moved) {
             changeActivePlayer();
         }
-    }
-
-    const _place = function(x,y)
-    {
-        const isCellFree = Gameboard.place(activePlayer.symbol, x,y);
-        if(isCellFree)
-            return true;
-        else
-            console.log("This is taken!");
-            return false;
     }
 
     return {play} 
