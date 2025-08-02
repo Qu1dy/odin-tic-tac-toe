@@ -110,7 +110,7 @@ const gameController = ((player1, player2) => {
     let activePlayer = player1;
     
     const dc = displayController(play);
-
+    dc.renderTurn(activePlayer.name);
     const changeActivePlayer = function() {
         activePlayer = activePlayer === player1 ? player2 : player1;
     }
@@ -134,6 +134,7 @@ const gameController = ((player1, player2) => {
         dc.renderBoard();
         if(moved && !_hasGameEnded()) {
             changeActivePlayer();
+            dc.renderTurn(activePlayer.name);
         }
     }
 });
@@ -146,10 +147,11 @@ const displayController = ((play) => {
         this.gameDiv = document.querySelector(".game");
         this.players = document.querySelector(".players");
         this.startButton = document.querySelector("#start");
+
         const info = document.querySelector(".info");
-        this.infoStatus = this.info.querySelector(".game-status");
-        this.turn = this.info.querySelector(".turn");
-        const gamesWon = this.info.querySelector(".games-won");
+        this.infoStatus = info.querySelector(".game-status");
+        this.turn = info.querySelector(".turn");
+        const gamesWon = info.querySelector(".games-won");
         this.wonP1 = gamesWon.querySelector("player1");
         this.wonP2 = gamesWon.querySelector("player2");
     }
@@ -181,8 +183,8 @@ const displayController = ((play) => {
         });
     };
 
-    const renderInfo = () => {
-
+    const renderTurn = (activePlayerName) => {
+        this.turn.innerText = `${activePlayerName}'s turn` 
     }
 
     const renderMessage = (message, duration) => {
@@ -203,5 +205,5 @@ const displayController = ((play) => {
     _cacheDom();
     _showGame();
     renderBoard();
-    return {renderBoard, renderMessage};
+    return {renderBoard, renderMessage, renderTurn};
 });
