@@ -10,6 +10,7 @@ body {
     padding: 0;
     font-family: "Open Sans", sans-serif;
     height: 100vh;
+    width: 100vw;
     position: relative;
 }
 
@@ -29,7 +30,13 @@ body {
 }
 
 .main-menu {
-    background-color: ;
+    background-color: hsl(0,0%, 10%);
+    padding: 1rem 0;
+    flex: 1;
+}
+
+body > * {
+    width: inherit;
 }
 
 header {
@@ -37,13 +44,12 @@ header {
     height: 5rem;
     justify-content: center;
     align-items: center;    
-    background-color: aqua;
-    box-shadow: 0 0 0.5rem hsl(80, 5%, 60%)
-}
-
-body > * {
-    margin-bottom: 1rem;
-    width: 100vw;
+    color: hsl(0,0%,100%);
+    font-weight: 900;
+    text-shadow: 4px 4px 8px yellow;
+    background-color: hsl(0,0%,25%);
+    box-shadow: 0 0 0.5rem hsl(0, 0%, 30%);
+    box-sizing: border-box;
 }
 
 header > div {
