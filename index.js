@@ -99,7 +99,7 @@ const playerHandler = (() => {
 
         player1 = player(player1Name, "X");
         player2 = player(player2Name, "O");
-        
+
         Gameboard.resetBoard();
         gameController(player1, player2);
     }
@@ -146,6 +146,12 @@ const displayController = ((play) => {
         this.gameDiv = document.querySelector(".game");
         this.players = document.querySelector(".players");
         this.startButton = document.querySelector("#start");
+        const info = document.querySelector(".info");
+        this.infoStatus = this.info.querySelector(".game-status");
+        this.turn = this.info.querySelector(".turn");
+        const gamesWon = this.info.querySelector(".games-won");
+        this.wonP1 = gamesWon.querySelector("player1");
+        this.wonP2 = gamesWon.querySelector("player2");
     }
 
     const _showGame = () => {
@@ -175,6 +181,9 @@ const displayController = ((play) => {
         });
     };
 
+    const renderInfo = () => {
+
+    }
 
     const renderMessage = (message, duration) => {
         this.overlay.style.display = "flex";
