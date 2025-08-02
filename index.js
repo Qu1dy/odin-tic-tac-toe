@@ -1,6 +1,6 @@
 const Gameboard = (function() {
     let board;
-    let occupiedCells = 0;
+    let occupiedCells;
 
     function _build_board() {
         for(let i =0;i<3;i++) {
@@ -57,6 +57,7 @@ const Gameboard = (function() {
     }
 
     const _resetBoard = () => {
+        occupiedCells = 0;
         board = [[],[],[]];
         _build_board();
     }
