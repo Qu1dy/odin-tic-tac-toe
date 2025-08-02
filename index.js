@@ -97,10 +97,10 @@ const gameController = (function(player1, player2) {
         const result = Gameboard.hasGameEnded();
         displayController.renderBoard();
         if(result === 1) {
-            displayController.renderMessage(`${activePlayer.name} has won!`);
+            displayController.renderMessage(`${activePlayer.name} has won!`, 3);
             return true;
         } else if(result === 2) {
-            displayController.renderMessage("It's a draw!");
+            displayController.renderMessage("It's a draw!", 3);
             return true;
         }
         return false;
@@ -141,9 +141,13 @@ const displayController = (() => {
         });
     };
 
-    const renderMessage = (message) => {
+
+    const renderMessage = (message, duration) => {
         this.overlay.style.display = "flex";
         this.overlayText.innerText = message; 
+        setTimeout(() => {
+            this.overlay.style.display = "none";
+        }, duration*1000);
     }
 
     const _onCellClick = (event) => {
