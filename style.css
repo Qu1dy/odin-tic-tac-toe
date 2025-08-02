@@ -28,6 +28,12 @@ body {
     border: 1rem solid gray;
 }
 
+main {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 5rem);
+}
+
 header {
     display: flex;
     width: 100vw;
@@ -35,8 +41,11 @@ header {
     justify-content: space-between;
     align-items: center;    
     background-color: aqua;
-    margin-bottom: 1rem;
     box-shadow: 0 0 0.5rem hsl(80, 5%, 60%)
+}
+
+body > * {
+    margin-bottom: 1rem;
 }
 
 header > div {
