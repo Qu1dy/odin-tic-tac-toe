@@ -128,6 +128,7 @@ const gameController = ((player1, player2) => {
     }
 
     function play(x,y) {
+        if(_hasGameEnded()) return;
         const moved = Gameboard.place(activePlayer.symbol, x,y);
         dc.renderBoard();
         if(moved && !_hasGameEnded()) {
