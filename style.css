@@ -93,6 +93,11 @@ input:focus, button:focus {
     font-weight: 9000;
     color: white;
     text-shadow: 4px 4px 1rem white;
+    cursor: pointer;
+}
+
+#start:hover {
+    transform: translateY(-0.25rem) scale(1.1);
 }
 
 #start, .player {
