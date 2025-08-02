@@ -150,7 +150,9 @@ header .left img {
     left: 0;
     margin: auto;
     font-size: 5rem;
-    background-color: rgba(0,0,255,0.1);
+    background-color: hsla(60, 100%, 20%, 0.1);
+    color: hsl(60, 100%, 60%);
+    text-shadow: 0 0 1rem white;
     display: none;
     justify-content: center;
     align-items: center;
