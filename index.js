@@ -86,29 +86,51 @@ const player = function(name, symbol) {
     return {name, symbol};
 };
 
-const gameController = (function(player1, player2) {
+const playerHandler = (() => {
+    const form = document.querySelector("form");
+
+    let player1, player2;
+
+    const _onSubmit = (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+
+        const player1Name = formData.get("player1");
+        const player2Name = formData.get("player2");
+
+        player1 = player(player1Name, "X");
+        player2 = player(player2Name, "O");
+
+        gameController(player1, player2);
+    }
+    form.addEventListener("submit", _onSubmit)
+})();
+
+const gameController = ((player1, player2) => {
     let activePlayer = player1;
     
+    const dc = displayController(play);
+
     const changeActivePlayer = function() {
         activePlayer = activePlayer === player1 ? player2 : player1;
     }
 
     const _hasGameEnded = () => {
         const result = Gameboard.getGameState();
-        displayController.renderBoard();
+        dc.renderBoard();
         if(result === 1) {
-            displayController.renderMessage(`${activePlayer.name} has won!`, 3);
+            dc.renderMessage(`${activePlayer.name} has won!`, 3);
             return true;
         } else if(result === 2) {
-            displayController.renderMessage("It's a draw!", 3);
+            dc.renderMessage("It's a draw!", 3);
             return true;
         }
         return false;
     }
 
-    const play = function(x,y) {
+    function play(x,y) {
         const moved = Gameboard.place(activePlayer.symbol, x,y);
-        displayController.renderBoard();
+        dc.renderBoard();
         if(moved && !_hasGameEnded()) {
             changeActivePlayer();
         }
@@ -117,7 +139,7 @@ const gameController = (function(player1, player2) {
     return {play};
 });
 
-const displayController = (() => {
+const displayController = ((play) => {
     
     const _cacheDom = () => {
         this.overlay = document.querySelector(".overlay");
@@ -159,29 +181,10 @@ const displayController = (() => {
         const divClicked = event.target;
         const x = divClicked.dataset.x;
         const y = divClicked.dataset.y;
-        controller.play(x, y);
+        play(x, y);
     }
 
     _cacheDom();
     renderBoard();
     return {renderBoard, renderMessage};
-})();
-
-const playerHandler = (() => {
-    const form = document.querySelector("form");
-
-    const _onSubmit = (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-
-        const player1Name = formData.get("player1");
-        const player2Name = formData.get("player2");
-
-        const player1 = player(player1Name, "X");
-        const player2 = player(player2Name, "O");
-
-        gameController(player1, player2);
-    }
-
-    form.addEventListener("submit", _onSubmit)
-})();
+});
