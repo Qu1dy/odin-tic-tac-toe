@@ -61,6 +61,7 @@ const Gameboard = (function() {
         occupiedCells = 0;
         board = [[],[],[]]; 
         _buildBoard();
+        console.log(board);
     }
 
     const _isDraw = () => occupiedCells === 9;
@@ -98,9 +99,9 @@ const playerHandler = (() => {
 
         player1 = player(player1Name, "X");
         player2 = player(player2Name, "O");
-
-        gameController(player1, player2);
+        
         Gameboard.resetBoard();
+        gameController(player1, player2);
     }
     form.addEventListener("submit", _onSubmit)
 })();

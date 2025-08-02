@@ -2,7 +2,7 @@ body, .col {
     display: flex;
     align-items: center;
     flex-direction: column;
-    background-color: white;
+    background-color: black;
 }
 
 body {
@@ -16,17 +16,20 @@ body {
 
 .col {
     justify-content: center;
-    font-size: 10rem;
+    border-radius: inherit;
+    color: white;
+    font-weight: 900;
+    font-size: 8rem;
 }
 
 .game {
     display: none;
-    height: inherit;
     width: inherit;
-    background-color: black;
+    height: inherit;
+    border-radius: inherit;
+    background-color: hsl(60, 100%, 20%);
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
-    gap: 1rem 1rem;
-    border: 1rem solid gray;
+    gap: 0.25rem 0.25rem;
 }
 
 main {
