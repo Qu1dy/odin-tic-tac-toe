@@ -2,7 +2,7 @@ const Gameboard = (function() {
     let board;
     let occupiedCells;
 
-    function _build_board() {
+    const _buildBoard = () => {
         for(let i =0;i<3;i++) {
             for(let j=0;j<3;j++) {
                 board[i][j] = " ";
@@ -60,7 +60,7 @@ const Gameboard = (function() {
     const _resetBoard = () => {
         occupiedCells = 0;
         board = [[],[],[]]; 
-        _build_board();
+        _buildBoard();
     }
 
     const _isDraw = () => occupiedCells === 9;
