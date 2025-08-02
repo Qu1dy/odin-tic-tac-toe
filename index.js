@@ -1,5 +1,5 @@
 const Gameboard = (function() {
-    let board;
+    let board = [[],[],[]];
     let occupiedCells;
 
     const _buildBoard = () => {
@@ -57,7 +57,7 @@ const Gameboard = (function() {
         return false;
     }
 
-    const _resetBoard = () => {
+    const resetBoard = () => {
         occupiedCells = 0;
         board = [[],[],[]]; 
         _buildBoard();
@@ -76,9 +76,7 @@ const Gameboard = (function() {
         }
     }
 
-    _resetBoard();
-
-    return {place, getBoard, getGameState};
+    return {place, getBoard, getGameState, resetBoard};
 
 })();
 
@@ -102,6 +100,7 @@ const playerHandler = (() => {
         player2 = player(player2Name, "O");
 
         gameController(player1, player2);
+        Gameboard.resetBoard();
     }
     form.addEventListener("submit", _onSubmit)
 })();
@@ -135,8 +134,6 @@ const gameController = ((player1, player2) => {
             changeActivePlayer();
         }
     }
-
-    return {play};
 });
 
 const displayController = ((play) => {
