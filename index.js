@@ -69,7 +69,7 @@ const Gameboard = (function() {
             return 1;
         } else if(_isDraw()) {
             return 2;
-        };
+        }
         return 0;
     }
 
@@ -103,10 +103,10 @@ const gameController = (function(player1, player2) {
     const _checkGameState = () => {
         const result = Gameboard.hasGameEnded();
         if(result === 1) {
-            console.log(`${activePlayer.name} has won!`)
+            console.log(`${activePlayer.name} has won!`);
             return true;
         } else if(result === 2) {
-            console.log(`It's a draw!`)
+            console.log(`It's a draw!`);
             return true;
         }
         return false;
@@ -121,7 +121,7 @@ const gameController = (function(player1, player2) {
         }
     }
 
-    return {play} 
+    return {play};
 })(player1, player2);
 
 while(true) {
