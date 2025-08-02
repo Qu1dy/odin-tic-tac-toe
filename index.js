@@ -10,7 +10,6 @@ const Gameboard = (function() {
         }
     }
 
-
     const place = function(symbol,x,y) {
         if(board[y][x] !== " ")
         {

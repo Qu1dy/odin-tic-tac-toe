@@ -1,0 +1,19 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.game {
+    display: grid;
+    height: 60vh;
+    width: 50vw;
+    background-color: black;
+    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+    gap: 1rem 1rem;
+}
+
+.col {
+    background-color: white;
+}
