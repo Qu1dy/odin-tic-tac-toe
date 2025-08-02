@@ -177,3 +177,7 @@ header .left img {
 .info h1 {
     align-self: center;
 }
+
+.info > div {
+    margin-left: 1rem;
+}
