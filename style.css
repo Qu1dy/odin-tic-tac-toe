@@ -27,7 +27,7 @@ body {
     width: inherit;
     height: inherit;
     border-radius: inherit;
-    background-color: hsl(60, 100%, 20%);
+    background-color: hsl(60, 100%, 40%);
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
     gap: 0.25rem 0.25rem;
 }
@@ -39,17 +39,21 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 2rem;
 }
 
 main .menu {
     width: 40rem;
     height: 40rem;
-    border: 2px solid hsl(60, 100%, 40%);
-    border-radius: 2rem;
-    box-shadow: 0 0 3rem hsl(60, 100%, 30%);
     display: grid;
     grid-template-areas:    'players'
                             'start-game';
+}
+
+main .menu, main .info {
+    border: 2px solid hsl(60, 100%, 40%);
+    border-radius: 2rem;
+    box-shadow: 0 0 3rem hsl(60, 100%, 30%);
 }
 
 .player {
@@ -115,6 +119,7 @@ body > * {
 }
 
 header {
+    position: relative;
     display: flex;
     height: 5rem;
     justify-content: center;
@@ -123,7 +128,8 @@ header {
     font-weight: 900;
     text-shadow: 4px 4px 8px yellow;
     background-color: hsl(0,0%,25%);
-    box-shadow: 0 0 0.5rem hsl(0, 0%, 30%);
+    box-shadow: 0 0 1rem hsl(0, 0%, 40%);
+    z-index: 1;
     box-sizing: border-box;
 }
 
@@ -158,7 +164,16 @@ header .left img {
     align-items: center;
 }
 
-form {
+.info {
+    width: 26rem;
+    height: 40rem;
+    font-size: 2rem;
+    color: white;
+    font-weight: 900;
     display: flex;
-    gap: 1rem;
+    flex-direction: column;
+}
+
+.info h1 {
+    align-self: center;
 }
