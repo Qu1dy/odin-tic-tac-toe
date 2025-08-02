@@ -28,6 +28,10 @@ body {
     border: 1rem solid gray;
 }
 
+.main-menu {
+    background-color: ;
+}
+
 header {
     display: flex;
     height: 5rem;
