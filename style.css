@@ -48,3 +48,17 @@ header .left img {
     align-items: center;
     gap: 1rem;
 }
+
+.right button {
+    padding: 0.5rem 1.2rem;    
+    border-radius: 2rem;
+    border: 0.25rem solid white;
+    background: none;
+    font-size: 1.2rem;
+    box-shadow: 2px 2px 4px gray;
+    cursor: pointer;
+}
+
+.right button:hover {
+    transform: translateY(-0.25rem) scale(1.1);
+}
