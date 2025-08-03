@@ -98,16 +98,19 @@ const playerHandler = (() => {
         player2 = player(player2Name, "O");
 
         Gameboard.resetBoard();
-        gameController(player1, player2);
+        const gameCon = gameController(player1, player2);
+        const dc = displayController(gameCon);
+
+        gameCon.setDisplayController(dc);
+        gameCon.init();
     }
     form.addEventListener("submit", _onSubmit)
 })();
 
 const gameController = ((player1, player2) => {
-    let activePlayer;
-    const dc = displayController(play, chooseRandomPlayer);
+    let activePlayer, dc;
 
-    const _init = () => {
+    const init = () => {
         chooseRandomPlayer();
         dc.renderNames(player1.name, player2.name);
         dc.renderTurn(activePlayer.name);
@@ -118,10 +121,16 @@ const gameController = ((player1, player2) => {
         activePlayer = activePlayer === player1 ? player2 : player1;
     }
 
+    const setDisplayController = (displayController) => {
+        dc = displayController;
+    }
+
     function chooseRandomPlayer() {
         activePlayer = Math.random() < 0.5 ? player1 : player2;
         return activePlayer;
     }
+
+    const getActivePlayer = () => activePlayer;
 
     const _hasGameEnded = () => {
         const result = Gameboard.getGameState();
@@ -147,10 +156,10 @@ const gameController = ((player1, player2) => {
         }
     }
 
-    _init();
+    return {play, chooseRandomPlayer, getActivePlayer, setDisplayController, init};
 });
 
-const displayController = ((play, chooseRandomPlayer) => {
+const displayController = (gameCon) => {
     let overlay, overlayText, gameDiv, players, startButton, 
     restartButton,infoStatus, turn, wonP1, wonP2
 
@@ -188,9 +197,10 @@ const displayController = ((play, chooseRandomPlayer) => {
 
     const restart = () => {
         Gameboard.resetBoard();
-        const activePlayer = chooseRandomPlayer();
+        gameCon.chooseRandomPlayer();
         renderBoard();
         renderStatus("IN GAME");
+        const activePlayer = gameCon.getActivePlayer();
         renderTurn(activePlayer.name);
     }
 
@@ -240,7 +250,7 @@ const displayController = ((play, chooseRandomPlayer) => {
         const divClicked = event.target;
         const x = divClicked.dataset.x;
         const y = divClicked.dataset.y;
-        play(x, y);
+        gameCon.play(x, y);
     }
 
     const _init = () => {
@@ -253,4 +263,4 @@ const displayController = ((play, chooseRandomPlayer) => {
     _init();
 
     return { renderBoard, renderMessage, renderTurn, renderStatus, renderNames, renderP1Win, renderP2Win };
-});
+};
