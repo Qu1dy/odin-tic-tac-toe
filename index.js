@@ -124,9 +124,9 @@ const gameController = ((player1, player2) => {
         else if (result === 1) {
             activePlayer.wins++;
             activePlayer === player1 ? dc.renderP1Win(activePlayer.wins) : dc.renderP2Win(activePlayer.wins);
-            dc.renderMessage(`${activePlayer.name} has won!`, 3);
+            dc.renderMessage(`${activePlayer.name} has won!`, 1.5);
         } else {
-            dc.renderMessage("It's a draw!", 3);
+            dc.renderMessage("It's a draw!", 1.5);
         }
         dc.renderStatus("GAME ENDED");
         return true;
