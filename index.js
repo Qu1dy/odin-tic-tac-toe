@@ -78,7 +78,7 @@ const Gameboard = (function () {
 
 })();
 
-const player = function (name, symbol) {
+const Player = function (name, symbol) {
     return { name, symbol, wins: 0 };
 };
 
@@ -94,8 +94,8 @@ const playerHandler = (() => {
         const player1Name = formData.get("player1");
         const player2Name = formData.get("player2");
 
-        player1 = player(player1Name, "X");
-        player2 = player(player2Name, "O");
+        player1 = Player(player1Name, "X");
+        player2 = Player(player2Name, "O");
 
         Gameboard.resetBoard();
         const gameCon = gameController(player1, player2);
