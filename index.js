@@ -104,32 +104,32 @@ const playerHandler = (() => {
 })();
 
 const gameController = ((player1, player2) => {
-    this.activePlayer;
+    let activePlayer;
     const dc = displayController(play, chooseRandomPlayer);
 
     const _init = () => {
         chooseRandomPlayer();
         dc.renderNames(player1.name, player2.name);
-        dc.renderTurn(this.activePlayer.name);
+        dc.renderTurn(activePlayer.name);
         dc.renderStatus("IN GAME");
     }
 
     const changeActivePlayer = () => {
-        this.activePlayer = this.activePlayer === player1 ? player2 : player1;
+        activePlayer = activePlayer === player1 ? player2 : player1;
     }
 
     function chooseRandomPlayer() {
-        this.activePlayer = Math.random() < 0.5 ? player1 : player2;
-        return this.activePlayer;
+        activePlayer = Math.random() < 0.5 ? player1 : player2;
+        return activePlayer;
     }
 
     const _hasGameEnded = () => {
         const result = Gameboard.getGameState();
         if (result === 0) return false;
         else if (result === 1) {
-            this.activePlayer.wins++;
-            this.activePlayer === player1 ? dc.renderP1Win(this.activePlayer.wins) : dc.renderP2Win(this.activePlayer.wins);
-            dc.renderMessage(`${this.activePlayer.name} has won!`, 1.5);
+            activePlayer.wins++;
+            activePlayer === player1 ? dc.renderP1Win(activePlayer.wins) : dc.renderP2Win(activePlayer.wins);
+            dc.renderMessage(`${activePlayer.name} has won!`, 1.5);
         } else {
             dc.renderMessage("It's a draw!", 1.5);
         }
@@ -139,11 +139,11 @@ const gameController = ((player1, player2) => {
 
     function play(x, y) {
         if (Gameboard.getGameState() !== 0) return;
-        const moved = Gameboard.place(this.activePlayer.symbol, x, y);
+        const moved = Gameboard.place(activePlayer.symbol, x, y);
         dc.renderBoard();
         if (moved && !_hasGameEnded()) {
             changeActivePlayer();
-            dc.renderTurn(this.activePlayer.name);
+            dc.renderTurn(activePlayer.name);
         }
     }
 
@@ -151,27 +151,29 @@ const gameController = ((player1, player2) => {
 });
 
 const displayController = ((play, chooseRandomPlayer) => {
+    let overlay, overlayText, gameDiv, players, startButton, 
+    restartButton,infoStatus, turn, wonP1, wonP2
 
     const _cacheDom = () => {
-        this.overlay = document.querySelector(".overlay");
-        this.overlayText = overlay.querySelector(".text");
-        this.gameDiv = document.querySelector(".game");
-        this.players = document.querySelector(".players");
-        this.startButton = document.querySelector("#start");
+        overlay = document.querySelector(".overlay");
+        overlayText = overlay.querySelector(".text");
+        gameDiv = document.querySelector(".game");
+        players = document.querySelector(".players");
+        startButton = document.querySelector("#start");
 
         const info = document.querySelector(".info");
-        this.restartButton = info.querySelector("#restart");
-        this.infoStatus = info.querySelector(".game-status");
-        this.turn = info.querySelector(".turn");
+        restartButton = info.querySelector("#restart");
+        infoStatus = info.querySelector(".game-status");
+        turn = info.querySelector(".turn");
         const gamesWon = info.querySelector(".games-won");
-        this.wonP1 = gamesWon.querySelector(".p1");
-        this.wonP2 = gamesWon.querySelector(".p2");
+        wonP1 = gamesWon.querySelector(".p1");
+        wonP2 = gamesWon.querySelector(".p2");
     }
 
     const _showGame = () => {
-        this.players.style.display = "none";
-        this.startButton.style.display = "none";
-        this.gameDiv.style.display = "grid";
+        players.style.display = "none";
+        startButton.style.display = "none";
+        gameDiv.style.display = "grid";
     }
 
     const _createCol = (col, rowNum, colNum) => {
@@ -194,43 +196,43 @@ const displayController = ((play, chooseRandomPlayer) => {
 
     const renderBoard = () => {
         const board = Gameboard.getBoard();
-        this.gameDiv.innerHTML = "";
+        gameDiv.innerHTML = "";
         board.forEach((row, rowNum) => {
             row.forEach((col, colNum) => {
                 const colDiv = _createCol(col, rowNum, colNum);
-                this.gameDiv.appendChild(colDiv);
+                gameDiv.appendChild(colDiv);
             });
         });
     };
 
     const renderNames = (player1Name, player2Name) => {
-        this.wonP1.innerText = `${player1Name}'S WINS: 0`;
-        this.wonP2.innerText = `${player2Name}'S WINS: 0`;
+        wonP1.innerText = `${player1Name}'S WINS: 0`;
+        wonP2.innerText = `${player2Name}'S WINS: 0`;
     }
 
     const renderTurn = (activePlayerName) => {
-        this.turn.innerText = `${activePlayerName}'s turn`
+        turn.innerText = `${activePlayerName}'s turn`
     }
 
     const renderStatus = (status) => {
-        this.infoStatus.innerText = `STATUS: ${status}`;
+        infoStatus.innerText = `STATUS: ${status}`;
     }
 
     const renderP1Win = (amount) => {
-        const currentText = this.wonP1.innerText;
-        this.wonP1.innerText = `${currentText.split(": ")[0]}: ${amount}`;
+        const currentText = wonP1.innerText;
+        wonP1.innerText = `${currentText.split(": ")[0]}: ${amount}`;
     }
 
     const renderP2Win = (amount) => {
-        const currentText = this.wonP2.innerText;
-        this.wonP2.innerText = `${currentText.split(": ")[0]}: ${amount}`;
+        const currentText = wonP2.innerText;
+        wonP2.innerText = `${currentText.split(": ")[0]}: ${amount}`;
     }
 
     const renderMessage = (message, duration) => {
-        this.overlay.style.display = "flex";
-        this.overlayText.innerText = message;
+        overlay.style.display = "flex";
+        overlayText.innerText = message;
         setTimeout(() => {
-            this.overlay.style.display = "none";
+            overlay.style.display = "none";
         }, duration * 1000);
     }
 
@@ -245,7 +247,7 @@ const displayController = ((play, chooseRandomPlayer) => {
         _cacheDom();
         _showGame();
         renderBoard();
-        this.restartButton.addEventListener("click", restart);
+        restartButton.addEventListener("click", restart);
     }
 
     _init();
