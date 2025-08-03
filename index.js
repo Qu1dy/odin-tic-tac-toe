@@ -106,10 +106,13 @@ const playerHandler = (() => {
 
 const gameController = ((player1, player2) => {
     let activePlayer = player1;
-
     const dc = displayController(play);
-    dc.renderTurn(activePlayer.name);
-    dc.renderStatus("IN GAME");
+
+    const _init = () => {
+        dc.renderTurn(activePlayer.name);
+        dc.renderStatus("IN GAME");
+    }
+
     const changeActivePlayer = function () {
         activePlayer = activePlayer === player1 ? player2 : player1;
     }
@@ -137,6 +140,8 @@ const gameController = ((player1, player2) => {
             dc.renderTurn(activePlayer.name);
         }
     }
+
+    _init();
 });
 
 const displayController = ((play) => {
