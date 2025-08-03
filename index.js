@@ -1,65 +1,63 @@
-const Gameboard = (function() {
-    let board = [[],[],[]];
+const Gameboard = (function () {
+    let board = [[], [], []];
     let occupiedCells;
 
     const _buildBoard = () => {
-        for(let i =0;i<3;i++) {
-            for(let j=0;j<3;j++) {
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
                 board[i][j] = " ";
             }
         }
     }
 
-    const place = function(symbol,x,y) {
-        if(board[y][x] !== " ")
-        {
+    const place = function (symbol, x, y) {
+        if (board[y][x] !== " ") {
             return false;
         }
         board[y][x] = symbol;
-        occupiedCells ++;
+        occupiedCells++;
         return true;
     }
 
 
     const _AreAllItemsInArrayEqual = (row) => {
         let first = row[0];
-        if(first === " ") return false;
-        for(let i =1;i<row.length;i++) {
-            if(first !== row[i]) return false;
+        if (first === " ") return false;
+        for (let i = 1; i < row.length; i++) {
+            if (first !== row[i]) return false;
         }
         return true;
     }
- 
+
     const _getAllPossibleVariations = () => {
-        const cols = [[],[],[]];
+        const cols = [[], [], []];
         const diag = [[], []];
         let allPossibleVariations = [];
-        for(let i = 0;i<board.length;i++) {
-            for(let j = 0;j<board.length;j++)
+        for (let i = 0; i < board.length; i++) {
+            for (let j = 0; j < board.length; j++)
                 cols[i].push(board[j][i]);
             diag[0].push(board[i][i]);
-            diag[1].push(board[i][board.length-1-i]);
+            diag[1].push(board[i][board.length - 1 - i]);
             allPossibleVariations.push(board[i]);
         };
         allPossibleVariations = [...allPossibleVariations, ...cols, ...diag];
         return allPossibleVariations;
     }
-
     const getBoard = () => board;
+
 
     const _hasSomeoneWon = () => {
         const allPossibleVariations = _getAllPossibleVariations();
-        for(let i = 0; i<allPossibleVariations.length;i++)
-        {
+        for (let i = 0; i < allPossibleVariations.length; i++) {
             let variation = allPossibleVariations[i];
-            if(_AreAllItemsInArrayEqual(variation)) return true;
+            if (_AreAllItemsInArrayEqual(variation)) return true;
         }
         return false;
     }
 
     const resetBoard = () => {
         occupiedCells = 0;
-        board = [[],[],[]]; 
+        board = [[], [], []];
         _buildBoard();
         console.log(board);
     }
@@ -69,20 +67,20 @@ const Gameboard = (function() {
     const getGameState = () => {
         const hasSomeoneWon = _hasSomeoneWon();
         const isDraw = _isDraw();
-        if(!hasSomeoneWon && !isDraw) return 0;
-        if(hasSomeoneWon) {
+        if (!hasSomeoneWon && !isDraw) return 0;
+        if (hasSomeoneWon) {
             return 1;
-        } else if(isDraw) {
+        } else if (isDraw) {
             return 2;
         }
     }
 
-    return {place, getBoard, getGameState, resetBoard};
+    return { place, getBoard, getGameState, resetBoard };
 
 })();
 
-const player = function(name, symbol) {
-    return {name, symbol, wins: 0};
+const player = function (name, symbol) {
+    return { name, symbol, wins: 0 };
 };
 
 const playerHandler = (() => {
@@ -108,33 +106,33 @@ const playerHandler = (() => {
 
 const gameController = ((player1, player2) => {
     let activePlayer = player1;
-    
+
     const dc = displayController(play);
     dc.renderTurn(activePlayer.name);
     dc.renderStatus("IN GAME");
-    const changeActivePlayer = function() {
+    const changeActivePlayer = function () {
         activePlayer = activePlayer === player1 ? player2 : player1;
     }
 
     const _hasGameEnded = () => {
         const result = Gameboard.getGameState();
-        if(result === 0) return false;
-        else if(result === 1) {
+        if (result === 0) return false;
+        else if (result === 1) {
             activePlayer.wins++;
             activePlayer === player1 ? dc.renderP1Win(activePlayer.wins) : dc.renderP2Win(activePlayer.wins);
             dc.renderMessage(`${activePlayer.name} has won!`, 3);
         } else {
             dc.renderMessage("It's a draw!", 3);
         }
-        dc.renderStatus("GAME ENDED")
+        dc.renderStatus("GAME ENDED");
         return true;
     }
 
-    function play(x,y) {
-        if(Gameboard.getGameState() !== 0) return;
-        const moved = Gameboard.place(activePlayer.symbol, x,y);
+    function play(x, y) {
+        if (Gameboard.getGameState() !== 0) return;
+        const moved = Gameboard.place(activePlayer.symbol, x, y);
         dc.renderBoard();
-        if(moved && !_hasGameEnded()) {
+        if (moved && !_hasGameEnded()) {
             changeActivePlayer();
             dc.renderTurn(activePlayer.name);
         }
@@ -142,7 +140,7 @@ const gameController = ((player1, player2) => {
 });
 
 const displayController = ((play) => {
-    
+
     const _cacheDom = () => {
         this.overlay = document.querySelector(".overlay");
         this.overlayText = overlay.querySelector(".text");
@@ -151,6 +149,7 @@ const displayController = ((play) => {
         this.startButton = document.querySelector("#start");
 
         const info = document.querySelector(".info");
+        this.restartButton = info.querySelector("#restart");
         this.infoStatus = info.querySelector(".game-status");
         this.turn = info.querySelector(".turn");
         const gamesWon = info.querySelector(".games-won");
@@ -174,6 +173,11 @@ const displayController = ((play) => {
         return colDiv;
     }
 
+    const restart = (e) => {
+        Gameboard.resetBoard();
+        renderBoard();
+    }
+
     const renderBoard = () => {
         const board = Gameboard.getBoard();
         this.gameDiv.innerHTML = "";
@@ -181,18 +185,17 @@ const displayController = ((play) => {
             row.forEach((col, colNum) => {
                 const colDiv = _createCol(col, rowNum, colNum);
                 this.gameDiv.appendChild(colDiv);
-           });
+            });
         });
     };
 
     const renderTurn = (activePlayerName) => {
-        this.turn.innerText = `${activePlayerName}'s turn` 
+        this.turn.innerText = `${activePlayerName}'s turn`
     }
 
     const renderStatus = (status) => {
         this.infoStatus.innerText = `STATUS: ${status}`;
     }
-
 
     const renderP1Win = (amount) => {
         const currentText = this.wonP1.innerText;
@@ -206,10 +209,10 @@ const displayController = ((play) => {
 
     const renderMessage = (message, duration) => {
         this.overlay.style.display = "flex";
-        this.overlayText.innerText = message; 
+        this.overlayText.innerText = message;
         setTimeout(() => {
             this.overlay.style.display = "none";
-        }, duration*1000);
+        }, duration * 1000);
     }
 
     const _onCellClick = (event) => {
@@ -219,9 +222,14 @@ const displayController = ((play) => {
         play(x, y);
     }
 
-    _cacheDom();
-    _showGame();
-    renderBoard();
+    const _init = () => {
+        _cacheDom();
+        _showGame();
+        renderBoard();
+        this.restartButton.addEventListener("click", restart);
+    }
 
-    return {renderBoard, renderMessage, renderTurn, renderStatus, renderP1Win, renderP2Win};
+    _init();
+
+    return { renderBoard, renderMessage, renderTurn, renderStatus, renderP1Win, renderP2Win };
 });

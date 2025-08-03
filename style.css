@@ -94,6 +94,10 @@ input:focus, button:focus {
     width: 34rem;
     height: 3rem;
     margin: 18rem auto;
+}
+
+
+#start, #restart {
     grid-area: start-game;
     font-size: 2.2rem;
     background: none;
@@ -104,11 +108,11 @@ input:focus, button:focus {
     cursor: pointer;
 }
 
-#start:hover {
+#start:hover, #restart:hover {
     transform: translateY(-0.25rem) scale(1.1);
 }
 
-#start, .player {
+#start, .player, #restart {
     border: 2px solid hsl(60, 100%, 60%);
     box-shadow: 0 0 3rem hsl(60, 100%, 50%);
 }
@@ -180,4 +184,10 @@ header .left img {
 
 .info > div {
     margin-left: 1rem;
+}
+
+#restart {
+    width: 21rem;
+    align-self: center;
+    margin-top: 14rem;
 }
