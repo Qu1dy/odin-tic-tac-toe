@@ -181,6 +181,7 @@ const displayController = ((play) => {
     const restart = (e) => {
         Gameboard.resetBoard();
         renderBoard();
+        renderStatus("IN GAME");
     }
 
     const renderBoard = () => {
