@@ -2,9 +2,9 @@ const Gameboard = (function () {
     let board = [[], [], []];
     let occupiedCells;
 
-    const _buildBoard = () => {
-        for (let i = 0; i < board.length; i++) {
-            for (let j = 0; j < board[i].length; j++) {
+    const _buildBoard = (size=3) => {
+        for (let i = 0; i < size; i++) {
+            for (let j = 0; j < size; j++) {
                 board[i][j] = " ";
             }
         }
@@ -34,7 +34,7 @@ const Gameboard = (function () {
         const diag = [[], []];
         let allPossibleVariations = [];
         for (let i = 0; i < board.length; i++) {
-            for (let j = 0; j < board.length; j++)
+            for (let j = 0; j < board[i].length; j++)
                 cols[i].push(board[j][i]);
             diag[0].push(board[i][i]);
             diag[1].push(board[i][board.length - 1 - i]);
