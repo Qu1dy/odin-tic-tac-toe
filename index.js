@@ -109,6 +109,7 @@ const gameController = ((player1, player2) => {
     const dc = displayController(play);
 
     const _init = () => {
+        dc.renderNames(player1.name, player2.name);
         dc.renderTurn(activePlayer.name);
         dc.renderStatus("IN GAME");
     }
@@ -195,6 +196,11 @@ const displayController = ((play) => {
         });
     };
 
+    const renderNames = (player1Name, player2Name) => {
+        this.wonP1.innerText = `${player1Name}'S WINS: 0`;
+        this.wonP2.innerText = `${player2Name}'S WINS: 0`;
+    }
+
     const renderTurn = (activePlayerName) => {
         this.turn.innerText = `${activePlayerName}'s turn`
     }
@@ -237,5 +243,5 @@ const displayController = ((play) => {
 
     _init();
 
-    return { renderBoard, renderMessage, renderTurn, renderStatus, renderP1Win, renderP2Win };
+    return { renderBoard, renderMessage, renderTurn, renderStatus, renderNames, renderP1Win, renderP2Win };
 });

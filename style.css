@@ -189,5 +189,6 @@ header .left img {
 #restart {
     width: 21rem;
     align-self: center;
-    margin-top: 14rem;
+    margin-top: auto;
+    margin-bottom: 2rem;
 }
