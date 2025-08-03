@@ -59,7 +59,6 @@ const Gameboard = (function () {
         occupiedCells = 0;
         board = [[], [], []];
         _buildBoard();
-        console.log(board);
     }
 
     const _isDraw = () => occupiedCells === 9;
@@ -105,26 +104,32 @@ const playerHandler = (() => {
 })();
 
 const gameController = ((player1, player2) => {
-    let activePlayer = player1;
-    const dc = displayController(play);
+    this.activePlayer;
+    const dc = displayController(play, chooseRandomPlayer);
 
     const _init = () => {
+        chooseRandomPlayer();
         dc.renderNames(player1.name, player2.name);
-        dc.renderTurn(activePlayer.name);
+        dc.renderTurn(this.activePlayer.name);
         dc.renderStatus("IN GAME");
     }
 
-    const changeActivePlayer = function () {
-        activePlayer = activePlayer === player1 ? player2 : player1;
+    const changeActivePlayer = () => {
+        this.activePlayer = this.activePlayer === player1 ? player2 : player1;
+    }
+
+    function chooseRandomPlayer() {
+        this.activePlayer = Math.random() < 0.5 ? player1 : player2;
+        return this.activePlayer;
     }
 
     const _hasGameEnded = () => {
         const result = Gameboard.getGameState();
         if (result === 0) return false;
         else if (result === 1) {
-            activePlayer.wins++;
-            activePlayer === player1 ? dc.renderP1Win(activePlayer.wins) : dc.renderP2Win(activePlayer.wins);
-            dc.renderMessage(`${activePlayer.name} has won!`, 1.5);
+            this.activePlayer.wins++;
+            this.activePlayer === player1 ? dc.renderP1Win(this.activePlayer.wins) : dc.renderP2Win(this.activePlayer.wins);
+            dc.renderMessage(`${this.activePlayer.name} has won!`, 1.5);
         } else {
             dc.renderMessage("It's a draw!", 1.5);
         }
@@ -134,18 +139,18 @@ const gameController = ((player1, player2) => {
 
     function play(x, y) {
         if (Gameboard.getGameState() !== 0) return;
-        const moved = Gameboard.place(activePlayer.symbol, x, y);
+        const moved = Gameboard.place(this.activePlayer.symbol, x, y);
         dc.renderBoard();
         if (moved && !_hasGameEnded()) {
             changeActivePlayer();
-            dc.renderTurn(activePlayer.name);
+            dc.renderTurn(this.activePlayer.name);
         }
     }
 
     _init();
 });
 
-const displayController = ((play) => {
+const displayController = ((play, chooseRandomPlayer) => {
 
     const _cacheDom = () => {
         this.overlay = document.querySelector(".overlay");
@@ -179,10 +184,12 @@ const displayController = ((play) => {
         return colDiv;
     }
 
-    const restart = (e) => {
+    const restart = () => {
         Gameboard.resetBoard();
+        const activePlayer = chooseRandomPlayer();
         renderBoard();
         renderStatus("IN GAME");
+        renderTurn(activePlayer.name);
     }
 
     const renderBoard = () => {
